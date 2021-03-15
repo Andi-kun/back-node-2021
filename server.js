@@ -1,6 +1,9 @@
 let express = require('express');
-let app = express();
 let bodyParser = require('body-parser');
+const jwt           = require('jsonwebtoken');
+var expressJWT      = require('express-jwt');
+let app = express();
+
 
 let assignment = require('./routes/assignments');
 
@@ -44,6 +47,25 @@ let port = process.env.PORT || 8010;
 
 // les routes
 const prefix = '/api';
+
+let secret = 'some_secret';
+
+app.route(prefix+'/auth')
+.get((req, res) => {
+    var userData = {
+        "name": "My Name",
+        "id": "1234"
+    }
+    let token = jwt.sign(userData, secret, { expiresIn: '1800s'})
+    res.status(200).json({"token": token});
+});
+
+app.use(expressJWT({ secret: secret, algorithms: ['HS256']})
+    .unless(
+        { path: [
+            prefix+'auth'
+        ]}
+));
 
 app.route(prefix + '/assignments')
   .get(assignment.getAssignments)
