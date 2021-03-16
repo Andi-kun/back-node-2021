@@ -1,11 +1,12 @@
 let express = require('express');
 let bodyParser = require('body-parser');
-const jwt           = require('jsonwebtoken');
 var expressJWT      = require('express-jwt');
 let app = express();
 
 
 let assignment = require('./routes/assignments');
+let user = require('./routes/users');
+const {secret,uri} = require('./config.json');
 
 let mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
@@ -13,7 +14,6 @@ mongoose.Promise = global.Promise;
 
 // remplacer toute cette chaine par l'URI de connexion à votre propre base dans le cloud s
 //const uri = 'mongodb+srv://mb:P7zM3VePm0caWA1L@cluster0.zqtee.mongodb.net/assignments?retryWrites=true&w=majority';
-const uri='mongodb+srv://andi:1234@cluster0.atmdc.mongodb.net/assignments?retryWrites=true&w=majority';
 
 const options = {
   useNewUrlParser: true,
@@ -48,24 +48,15 @@ let port = process.env.PORT || 8010;
 // les routes
 const prefix = '/api';
 
-let secret = 'some_secret';
-
-app.route(prefix+'/auth')
-.get((req, res) => {
-    var userData = {
-        "name": "My Name",
-        "id": "1234"
-    }
-    let token = jwt.sign(userData, secret, { expiresIn: '1800s'})
-    res.status(200).json({"token": token});
-});
-
 app.use(expressJWT({ secret: secret, algorithms: ['HS256']})
     .unless(
         { path: [
-            prefix+'auth'
+            prefix+'/auth'
         ]}
 ));
+
+app.route(prefix+'/auth')
+.post(user.login);
 
 app.route(prefix + '/assignments')
   .get(assignment.getAssignments)

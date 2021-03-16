@@ -1,0 +1,6 @@
+{ 
+    "uri" : "mongodb+srv://andi:1234@cluster0.atmdc.mongodb.net/assignments?retryWrites=true&w=majority",
+    "secret" : "some_secret"
+} 
+
+    
