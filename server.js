@@ -6,6 +6,7 @@ let app = express();
 
 
 let assignment = require('./routes/assignments');
+let matiere = require('./routes/matieres');
 let user = require('./routes/users');
 const {secret,uri} = require('./config.json');
 
@@ -69,6 +70,9 @@ app.route(prefix + '/assignments')
 app.route(prefix + '/assignments/:id')
   .get(assignment.getAssignment)
   .delete(assignment.deleteAssignment);
+
+app.route(prefix + '/matieres')
+  .get(matiere.getMatieres)
 
 // On démarre le serveur
 app.listen(port, "0.0.0.0");

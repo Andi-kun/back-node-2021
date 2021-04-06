@@ -5,6 +5,7 @@ let Schema = mongoose.Schema;
 let MatiereSchema = Schema({
     id: Number,
     nom : String,
+    image: String,
     nomProfesseur : String,
     imageProfesseur : String
 });

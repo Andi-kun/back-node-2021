@@ -53,16 +53,21 @@ function postAssignment(req, res) {
   assignment.id = req.body.id;
   assignment.nom = req.body.nom;
   assignment.dateDeRendu = req.body.dateDeRendu;
-  assignment.rendu = req.body.rendu;
-  assignement.auteur = req.body.auteur;
-  assignement.note = req.body.note;
-  assignement.remarques = req.body.remarques;
-  let matiereId = req.body.matiereId;
+  assignment.auteur = req.body.auteur;
+  assignment.matiere = req.body.matiere;
+  //let matiereId = req.body.matiereId;
 
   console.log("POST assignment reçu :");
   console.log(assignment);
 
-  Matiere.findOne({ id: matiereId }, (err, matiere) => {
+  assignment.save((err) => {
+    if (err) {
+      res.send("cant post assignment ", err);
+    }
+    res.json({ message: `${assignment.nom} saved!` });
+  });
+
+  /*Matiere.findOne({ id: matiereId }, (err, matiere) => {
     if (err) {
       res.send(err);
     }
@@ -74,7 +79,7 @@ function postAssignment(req, res) {
       }
       res.json({ message: `${assignment.nom} saved!` });
     });
-  });
+  });*/
 }
 
 // Update d'un assignment (PUT)
