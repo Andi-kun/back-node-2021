@@ -1,5 +1,6 @@
 // Assignment est le "modèle mongoose", il est connecté à la base de données
 let Assignment = require("../model/assignment");
+let Matiere = require("../model/matiere");
 
 /* Version sans pagination */
 // Récupérer tous les assignments (GET)
@@ -52,7 +53,9 @@ function postAssignment(req, res) {
   assignment.id = req.body.id;
   assignment.nom = req.body.nom;
   assignment.dateDeRendu = req.body.dateDeRendu;
-  assignment.rendu = req.body.rendu;
+  assignment.auteur = req.body.auteur;
+  assignment.matiere = req.body.matiere;
+  //let matiereId = req.body.matiereId;
 
   console.log("POST assignment reçu :");
   console.log(assignment);
@@ -63,6 +66,20 @@ function postAssignment(req, res) {
     }
     res.json({ message: `${assignment.nom} saved!` });
   });
+
+  /*Matiere.findOne({ id: matiereId }, (err, matiere) => {
+    if (err) {
+      res.send(err);
+    }
+    
+    assignment.matiere = matiere;
+    assignment.save((err) => {
+      if (err) {
+        res.send("cant post assignment ", err);
+      }
+      res.json({ message: `${assignment.nom} saved!` });
+    });
+  });*/
 }
 
 // Update d'un assignment (PUT)
