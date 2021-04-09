@@ -1,4 +1,5 @@
 let mongoose = require('mongoose');
+
 var aggregatePaginate = require("mongoose-aggregate-paginate-v2");
 
 let Schema = mongoose.Schema;
@@ -8,8 +9,8 @@ let AssignmentSchema = Schema({
     dateDeRendu: Date,
     nom: String,
     rendu: Boolean,
-    auteur : String,
-    matiere : Object,
+    auteur : { type: Schema.Types.ObjectId, ref: 'Eleve' },
+    matiere : { type: Schema.Types.ObjectId, ref: 'Matiere' },
     note : Number,
     remarques: String
 

@@ -1,4 +1,3 @@
-// Assignment est le "modèle mongoose", il est connecté à la base de données
 let Matiere = require("../model/matiere");
 
 
