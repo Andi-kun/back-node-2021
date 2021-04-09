@@ -30,7 +30,13 @@ function getAssignments(req, res) {
       if (err) {
         res.send(err);
       }
-      res.send(assignments);
+      Assignment.populate(assignments.docs, [{path: "auteur"},{path: "matiere"}],(err, assignmentsPopulate) => {
+        if (err) {
+          res.send(err);
+        }
+        assignments.docs = assignmentsPopulate;
+        res.send(assignments);
+      } );
     }
   );
 }
@@ -39,7 +45,10 @@ function getAssignments(req, res) {
 function getAssignment(req, res) {
   let assignmentId = req.params.id;
 
-  Assignment.findOne({ id: assignmentId }, (err, assignment) => {
+  Assignment.findOne({ id: assignmentId })
+  .populate("auteur")
+  .populate("matiere")
+  .exec((err, assignment) => {
     if (err) {
       res.send(err);
     }

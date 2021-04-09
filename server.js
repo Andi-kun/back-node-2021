@@ -8,6 +8,7 @@ let app = express();
 let assignment = require('./routes/assignments');
 let matiere = require('./routes/matieres');
 let user = require('./routes/users');
+let eleve = require('./routes/eleves');
 const {secret,uri} = require('./config.json');
 
 let mongoose = require('mongoose');
@@ -73,6 +74,9 @@ app.route(prefix + '/assignments/:id')
 
 app.route(prefix + '/matieres')
   .get(matiere.getMatieres)
+
+app.route(prefix + '/eleves')
+  .get(eleve.getEleves)
 
 // On démarre le serveur
 app.listen(port, "0.0.0.0");
