@@ -18,7 +18,14 @@ function getAssignments(req, res){
 
 // Récupérer tous les assignments (GET), AVEC PAGINATION
 function getAssignments(req, res) {
-  var aggregateQuery = Assignment.aggregate();
+  let options = [];
+
+  console.log(req.query.rendu);
+  if(req.query.rendu){
+    options.push({ "$match": { "rendu": JSON.parse(req.query.rendu.toLowerCase()) }});
+  }
+  console.log(options);
+  var aggregateQuery = Assignment.aggregate(options);
   
   Assignment.aggregatePaginate(
     aggregateQuery,
@@ -40,6 +47,7 @@ function getAssignments(req, res) {
     }
   );
 }
+
 
 // Récupérer un assignment par son id (GET)
 function getAssignment(req, res) {
@@ -64,8 +72,8 @@ function postAssignment(req, res) {
   assignment.dateDeRendu = req.body.dateDeRendu;
   assignment.auteur = req.body.auteur;
   assignment.matiere = req.body.matiere;
-  //let matiereId = req.body.matiereId;
-
+  assignment.rendu = false;
+  
   console.log("POST assignment reçu :");
   console.log(assignment);
 
@@ -95,6 +103,9 @@ function postAssignment(req, res) {
 function updateAssignment(req, res) {
   console.log("UPDATE recu assignment : ");
   console.log(req.body);
+  if(req.body.note){
+    req.body.rendu = true;
+  }
   Assignment.findByIdAndUpdate(
     req.body._id,
     req.body,
