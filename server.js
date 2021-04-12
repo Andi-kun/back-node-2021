@@ -73,10 +73,11 @@ app.route(prefix + '/assignments/:id')
   .delete(assignment.deleteAssignment);
 
 app.route(prefix + '/matieres')
-  .get(matiere.getMatieres)
+  .get(matiere.getMatieres);
 
 app.route(prefix + '/eleves')
   .get(eleve.getEleves)
+  .post(eleve.postEleve);
 
 // On démarre le serveur
 app.listen(port, "0.0.0.0");
