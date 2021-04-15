@@ -105,9 +105,6 @@ function postAssignment(req, res) {
 function updateAssignment(req, res) {
   console.log("UPDATE recu assignment : ");
   console.log(req.body);
-  if(req.body.note){
-    req.body.rendu = true;
-  }
   Assignment.findByIdAndUpdate(
     req.body._id,
     req.body,

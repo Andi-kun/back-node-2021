@@ -23,7 +23,7 @@ function login(req,res){
             "login": user.login,
             "role": user.role,
         }
-        let token = jwt.sign(userData, secret, { expiresIn: '1800s'})
+        let token = jwt.sign(userData, secret, { expiresIn: '3600s'})
         res.status(200).json({"token": token});
     });
 }
